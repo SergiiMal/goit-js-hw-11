@@ -16,7 +16,6 @@ const gallery = new simpleLightbox('.gallery a');
 refs.form.addEventListener('submit', onSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-
 async function onSubmit(e) {
 	e.preventDefault();
 
@@ -54,7 +53,6 @@ async function onSubmit(e) {
 			
 	}
 }
-
 	async function onLoadMore(e) {
 		try {
 			const { hits, totalHits } = await pixabayApiService.axiosArticles();
