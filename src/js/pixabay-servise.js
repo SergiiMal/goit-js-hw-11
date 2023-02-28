@@ -11,6 +11,7 @@ export default class PixabayApiService{
 	}
 
 	async axiosArticles() {
+		
 		const queryParams = {
 			key: key,
 			q: this.serchQuery,
@@ -20,10 +21,13 @@ export default class PixabayApiService{
 			page: this.page,
 			per_page: 40,
 		};
+		
 
 		const response = await axios.get(url, {
 			params: queryParams,
 		});
+		
+			
 		this.addCurrentPage();
 		return response.data;
 	}
@@ -33,6 +37,7 @@ export default class PixabayApiService{
 	}
 
 	addCurrentHits(hitsLength) {
+		
 		this.currentHits += hitsLength;
 	}
 

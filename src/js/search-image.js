@@ -21,52 +21,49 @@ async function onSubmit(e) {
 
 	pixabayApiService.query = e.currentTarget.elements.searchQuery.value.trim();
 
-	if (pixabayApiService.query === '') {
+	if (pixabayApiService.query === '' ) {
 		clearHitsMarkup();
 		loadMoreBtnDisplay('none');
 		Notify.failure('Sorry, there are no images matching your search query. Please try again.')
 		e.currentTarget.reset();
 		return;
 	}
-
 	pixabayApiService.currentHits = 0;
 	pixabayApiService.resetPage();
 	e.currentTarget.reset();
 
 	try {
 		const { hits, totalHits } = await pixabayApiService.axiosArticles();
-
-		if (totalHits > 0) {
-			loadMoreBtnDisplay('block');
+		if (totalHits > 0) {			
 			clearHitsMarkup();
 			addHitsMarkup(hits);
-
 			Notify.success(`Hooray! We found ${totalHits} images.`)
-
 			pixabayApiService.addCurrentHits(hits.length);
-		} else {
-			clearHitsMarkup();
-			loadMoreBtnDisplay('none');
+		}		 
+		else {					
+			clearHitsMarkup();		
 			Notify.failure('Sorry, there are no images matching your search query. Please try again.');
 		}
-	} catch (error) {
-			
+		if (totalHits > 40) {
+			loadMoreBtnDisplay('block');
+				}		
+	} catch (error) {			
 	}
 }
 	async function onLoadMore(e) {
 		try {
-			const { hits, totalHits } = await pixabayApiService.axiosArticles();
+			const { hits, totalHits } = await pixabayApiService.axiosArticles();			
 			pixabayApiService.addCurrentHits(hits.length);
-			addHitsMarkup(hits);
-
-			if (pixabayApiService.currentHits === totalHits) {
+			addHitsMarkup(hits);	
+			
+		   if  (pixabayApiService.currentHits === totalHits) {		 
 				loadMoreBtnDisplay('none');
 				return Notify.warning("We're sorry, but you've reached the end of search results."
 				);
-			}
-		}catch (error) {			
+			}  		
+		}
+		catch (error) {			
 			loadMoreBtnDisplay('none');
-
 			return Notify.warning("We're sorry, but you've reached the end of search results.");
 		}
 	}
